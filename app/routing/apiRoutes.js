@@ -12,7 +12,7 @@ app.get("/api/friends", function(req, res) {
     return res.json(friendData);
 });
 
-  /*
+
 app.post("/api/friends", function(req, res) {
     // req.body hosts is equal to the JSON post sent from the user
     // This works because of our body-parser middleware
@@ -24,9 +24,9 @@ app.post("/api/friends", function(req, res) {
   
     console.log(newcharacter);
   
-    characters.push(newcharacter);
+    friends.push(newcharacter);
   
     res.json(newcharacter);
-}); */
+}); 
 
 }
