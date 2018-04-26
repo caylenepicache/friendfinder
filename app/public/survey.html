@@ -5,7 +5,7 @@
     <title>Friend Finder</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -14,11 +14,11 @@
     <form>
         <div class="form-group">
             <label for="exampleInputEmail1">Name (Required)</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Your Name Here">
+            <input type="text" class="form-control" id="userName" aria-describedby="emailHelp" placeholder="Your Name Here">
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Link to Photo Image (Required)</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Photo URL Here">
+            <input type="text" class="form-control" id="userImg" placeholder="Photo URL Here">
         </div>
 
         <div class="form-group">
@@ -131,10 +131,115 @@
                     <option value="5">5 (Strongly Agree)</option>
                 </select>
         </div>
-        <button type="button" class="btn btn-primary btn-lg btn-block">Block level button</button>
+        <button type="button" id = "submitBtn" class="btn btn-primary btn-lg btn-block">Block level button</button>
     </form>
     <div class="container">
         <p><a href="/api/friends">API Friends List</a> | <a href="###">GitHub Repo</a></p>
     </div>
+
+
+
+    <!-- MODAL -->
+      
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    <!-- Grabs information and sends it to server -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#submitBtn").on("click", function() {
+
+            function validateForm() {
+                var isValid = true;
+                $('.validate').each(function() {
+                    if ($(this).val() === ''){
+                        isValid = false;
+                    }
+                });
+                $('.browser-default').each(function() {
+                    if ($(this).val() === ""){
+                        isValid = false;
+                    }
+                });
+                return isValid;
+            }
+
+            //if everything is filled
+            if (validateForm() == true) {
+                //creates a new friend from the values submitted
+                var newFriend = {
+                    name: $('#userName').val().trim(),
+                    profilePic: $('#userImg').val().trim(),
+                    scores: [
+                        $('#qOne').val(),
+                        $('#qTwo').val(),
+                        $('#qThree').val(),
+                        $('#qFour').val(),
+                        $('#qFive').val(),
+                        $('#qSix').val(),
+                        $('#qSeven').val(),
+                        $('#qEight').val(),
+                        $('#qNine').val(),
+                        $('#qTen').val(),
+                    ]
+                };
+
+
+                //Grabs current URL of website
+                var location = window.location.origin;
+                //AJAX posts the data to friends API.
+                $.post("/api/friends", newFriend, function(data) {
+                    //Grab the result from the AJAX post so that the best match's name and photo are displayed.
+                    $("#userMatchName").text(data.name);
+                    $("#userMatchImg").attr("src", data.profilePic);
+                });
+
+
+                // Show the modal with the best match
+                $('#myModal').modal("toggle");
+
+
+                //clear form after submission
+                $('#name').val("");
+                $('#photo').val("");
+                $('#qOne').val("");
+                $('#qTwo').val("");
+                $('#qThree').val("");
+                $('#qFour').val("");
+                $('#qFive').val("");
+                $('#qSix').val("");
+                $('#qSeven').val("");
+                $('#qEight').val("");
+                $('#qNine').val("");
+                $('#qTen').val("");
+
+            }
+             
+            else {
+                alert("Please fill out ALL fields before submitting survey!")
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
