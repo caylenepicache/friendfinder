@@ -1,5 +1,5 @@
 
-var friendData = require('../data/friend.js');
+var friendData = require('../data/friends.js');
 
 // Routes
 // =============================================================
@@ -27,7 +27,6 @@ app.post("/api/friends", function(req, res) {
     characters.push(newcharacter);
   
     res.json(newcharacter);
-});
-}
+}); */
 
-*/
+}
