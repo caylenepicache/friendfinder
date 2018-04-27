@@ -4,8 +4,7 @@ var friendServer = require('../../server.js');
 
 // Routes
 module.exports = function(app){
-// Basic route that sends the user first to the AJAX Page
-// Displays a single character, or returns false
+
 app.get("/api/friends", function(req, res) {
 
     return res.json(friendData);
@@ -50,7 +49,7 @@ app.post("/api/friends", function(req, res) {
 				// If the sum of differences is less then the differences of the current "best match"
 				if (totalDifference <= matchUser.friendDifference){
 
-					// Reset the bestMatch to be the new friend. 
+					// Reset the matchUser
 					matchUser.name = friendData[i].name;
 					console.log("matchUser.name" + matchUser.name);
 					matchUser.photo = friendData[i].photo;
@@ -59,12 +58,11 @@ app.post("/api/friends", function(req, res) {
 			}
 		}
 
-		// Finally save the user's data to the database (this has to happen AFTER the check. otherwise,
-		// the database will always return that the user is the user's best friend).
+
 		friendData.push(newFriend);
 		console.log("newfriend" + newFriend);        
 
-		// Return a JSON with the user's bestMatch. This will be used by the HTML in the next page. 
+
 		res.json(matchUser);
 		console.log("matchuser" + matchUser);
 

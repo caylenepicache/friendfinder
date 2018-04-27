@@ -187,7 +187,7 @@
 
             //if everything is filled
             if (validateForm() == true) {
-                //creates a new friend from the values submitted
+                //creates a new friend
                 var newFriend = {
                     name: $('#userName').val().trim(),
                     profilePic: $('#userImg').val().trim(),
@@ -221,8 +221,8 @@
 
 
                 //clear form after submission
-                $('#name').val("");
-                $('#photo').val("");
+                $('#userName').val("");
+                $('#userImg').val("");
                 $('#qOne').val("");
                 $('#qTwo').val("");
                 $('#qThree').val("");
